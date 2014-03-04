@@ -11,7 +11,7 @@ app.use(express.bodyParser());    // 读取请求 body 的中间件
 app.get('/hello', function(req, res) {
 	res.render('hello', { message: 'Congrats, you just set up your app!' });
 });
-/*
+
 app.get('/:id', function(req, res) {
 	AV.Cloud.httpRequest({
 		url: 'https://ota.io/'+req.id+"/manifest",
@@ -24,6 +24,6 @@ app.get('/:id', function(req, res) {
 	})
 	res.render('install', { app: {name: "DreamColor"}});
 });
-*/
+
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
 app.listen();
