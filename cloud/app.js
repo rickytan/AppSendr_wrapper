@@ -13,16 +13,17 @@ app.get('/hello', function(req, res) {
 });
 
 app.get('/:id', function(req, res) {
+	console.log(req.id);
 	AV.Cloud.httpRequest({
 		url: 'https://ota.io/'+req.id+"/manifest",
 		success: function(httpResponse) {
-			console.log(httpResponse.text);
+			//console.log(httpResponse.text);
+			res.render('install', { app: {name: httpResponse.text}});
 		},
 		error: function(httpResponse) {
 			console.error('Request failed with response code ' + httpResponse.status);
 		}
 	})
-	res.render('install', { app: {name: "DreamColor"}});
 });
 
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
