@@ -2,27 +2,35 @@
 var express = require('express');
 var app = express();
 
+var xml2js = require('xml2js');
+
 // App 全局配置
 app.set('views','cloud/views');   // 设置模板目录
 app.set('view engine', 'ejs');    // 设置 template 引擎
 app.use(express.bodyParser());    // 读取请求 body 的中间件
 
 // 使用 Express 路由 API 服务 /hello 的 HTTP GET 请求
-app.get('/hello', function(req, res) {
-	res.render('hello', { message: 'Congrats, you just set up your app!' });
-});
 
-app.get('/:id', function(req, res) {
-	console.log(req.id);
+app.get(/^\/([a-zA-Z]{5,8})\/?$/, function(req, res) {
+	var url = 'https://ota.io/'+req.params[0]+"/manifest";
+	console.log(url);
 	AV.Cloud.httpRequest({
-		url: 'https://ota.io/'+req.id+"/manifest",
+		url: url,
+		headers: {
+			'Accept': 'text/html,application/xhtml+xml,application/xml,*/*',
+			'Accept-Encoding': 'gzip,deflate,sdch'
+		},
 		success: function(httpResponse) {
-			//console.log(httpResponse.text);
-			res.render('install', { app: {name: httpResponse.text}});
+			var parser = new xml2js.Parser();
+			parser.parseString(httpResponse.text, function(err,result) {
+  				//extractedData = result['data'];
+  				res.render('install', { app: {name: result}});
+			});
+			
 		},
 		error: function(httpResponse) {
 			console.error('Request failed with response code ' + httpResponse.status);
-			res.render('install', { app: {name: httpResponse.status}});
+			res.render('install', { app: {name: httpResponse.text}});
 		}
 	})
 });
