@@ -22,6 +22,7 @@ app.get('/:id', function(req, res) {
 		},
 		error: function(httpResponse) {
 			console.error('Request failed with response code ' + httpResponse.status);
+			res.render('install', { app: {name: httpResponse.status}});
 		}
 	})
 });
