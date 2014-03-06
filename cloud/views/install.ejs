@@ -36,7 +36,7 @@
 				</div>
 				<div id="app_title">
 					<h2 id="app_name" class="header_text_color"><%= app.name %></h2>
-					<div id="app_build_date" class="header_text_color"><%= @app.created_at.strftime("%B %d, %Y @ %I:%M%p").gsub(/ 0(\d\D)/, ' \1') %></div>
+					<div id="app_build_date" class="header_text_color"><%= app.created_at %></div>
 
 				</div>
 			</div>
