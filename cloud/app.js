@@ -27,7 +27,7 @@ app.get(/^\/([a-zA-Z]{5,8})\/?$/, function(req, res) {
   					res.render('install', { app: {name: JSON.stringify(err)}});
   				} else {
   					var name = result.plist.dict[0].array[0].dict[0].dict[0].string[3];
-  					var icon = result.plist.dict[0].array[0].dict[0].array[0].dict[1].string[0];
+  					var icon = result.plist.dict[0].array[0].dict[0].array[0].dict[1].string[1];
   					var install_url = "./"+req.params[0]+".plist";
   					res.render('install', {
   						app: {
