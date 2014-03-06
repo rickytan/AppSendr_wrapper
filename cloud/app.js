@@ -47,5 +47,25 @@ app.get(/^\/([a-zA-Z]{5,8})\/?$/, function(req, res) {
 	})
 });
 
+app.get(/^\/([a-zA-Z]{5,8}).plist$/, function(req, res) {
+	var url = 'https://ota.io/'+req.params[0]+"/manifest";
+	console.log(url);
+	AV.Cloud.httpRequest({
+		url: url,
+		headers: {
+			'Accept': 'text/html,application/xhtml+xml,application/xml,*/*',
+			'Accept-Encoding': 'gzip,deflate,sdch'
+		},
+		success: function(httpResponse) {
+			res.set('Content-Type', 'application/plist');
+			res.send(httpResponse.text);
+		},
+		error: function(httpResponse) {
+			console.error('Request failed with response code ' + httpResponse.status);
+			res.send(httpResponse.text);
+		}
+	})
+});
+
 // 最后，必须有这行代码来使 express 响应 HTTP 请求
 app.listen();
