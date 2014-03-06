@@ -28,7 +28,7 @@ app.get(/^\/([a-zA-Z]{5,8})\/?$/, function(req, res) {
   				} else {
   					var name = result.plist.dict[0].array[0].dict[0].dict[0].string[3];
   					var icon = result.plist.dict[0].array[0].dict[0].array[0].dict[1].string[1];
-  					var install_url = "./"+req.params[0]+".plist";
+  					var install_url = "itms-services://?action=download-manifest&url=http://"+req.headers.host+"/"+req.params[0]+".plist";
   					res.render('install', {
   						app: {
   							name: name, 
