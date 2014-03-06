@@ -23,7 +23,11 @@ app.get(/^\/([a-zA-Z]{5,8})\/?$/, function(req, res) {
 			var parser = new xml2js.Parser();
 			parser.parseString(httpResponse.text, function(err,result) {
   				//extractedData = result['data'];
-  				res.render('install', { app: {name: result['data']}});
+				if (err) {
+					res.render('install', { app: {name: JSON.stringify(err)}});
+				} else {
+					res.render('install', { app: {name: JSON.stringify(result)}});
+				}
 			});
 			
 		},
